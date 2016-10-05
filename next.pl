@@ -2,9 +2,9 @@
 
 use strict;
 
-#my $stop = 'R42N'; #nbound bay ridge ave stop
+my $stop = 'R42N'; #nbound bay ridge ave stop
 #my $stop = 'R24S'; #sbound city hall R stop
-my $stop = 'Q01S'; #sbound Canal N stop
+#my $stop = 'Q01S'; #sbound Canal N stop
 chomp(my $curdow = `date '+%u'`);  #get day of week (1-7, 1 is monday)
 chomp(my $curtime = `date '+%H:%M'`);
 my @results = ();
@@ -16,11 +16,11 @@ if($curdow < 6){
     $sched = "WKD";
 }
 elsif($curdow == 6){
-    print "It is Saturday.\n";
+    print "It is Saturday, the current time is $curtime.\n";
     $sched = "SAT";
 }
 elsif($curdow == 7){
-    print "It is Sunday.\n";
+    print "It is Sunday, the current time is $curtime.\n";
     $sched = "SUN";
 }
 
@@ -31,12 +31,10 @@ my ($h, $m) = split(':',$curtime);
 
 for(my $i = 0; $i < @results; $i++){
     my ($schedHour, $schedMin, $schedSec) = split(':',$results[$i]);
-    if($h > $schedHour){
-	next;
-    }
-
-    if($m > $schedMin){
-	next;
+	
+    if($h . $m > $schedHour . $schedMin){
+		#print "$h$m > $schedHour$schedMin\n";
+		next;
     }
     
     print "The next train is arriving at $results[$i]. The train after will arrive at " . $results[$i+1] . ".\n";
